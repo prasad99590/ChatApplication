@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
+
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+ 
+
+	<servlet>
+		<servlet-name>UserService</servlet-name>
+		<servlet-class>com.learn.serviceImpl.UserServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>UserService</servlet-name>
+		<url-pattern>/chatappgwt/user</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GroupService</servlet-name>
+		<servlet-class>com.learn.serviceImpl.GroupServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>GroupService</servlet-name>
+		<url-pattern>/chatappgwt/group</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>MessageService</servlet-name>
+		<servlet-class>com.learn.serviceImpl.MessageServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>MessageService</servlet-name>
+		<url-pattern>/chatappgwt/message</url-pattern>
+	</servlet-mapping>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param> 
+
+	<welcome-file-list>
+		<welcome-file>ChatAppGWT.html</welcome-file>
+	</welcome-file-list>
+
+</web-app>

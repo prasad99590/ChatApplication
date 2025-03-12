@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.learn.model.Message" table="message">
+		<id name="mid" column="mid">
+			<generator class="sequence">
+				<param name="sequence">hibernate_sequence</param>
+			</generator>
+		</id>
+		<property name="content" column="content" />
+
+		<many-to-one name="sender" class="com.learn.model.User"
+			column="sender" lazy="false" />
+		<property name="createdAt" column="created_at" />
+		<many-to-one name="recieverUser"
+			class="com.learn.model.User" column="reciever_user" lazy="false" />
+		<many-to-one name="recieverGroup"
+			class="com.learn.model.Group" column="reciever_group" lazy="false" />
+
+
+	</class>
+</hibernate-mapping>

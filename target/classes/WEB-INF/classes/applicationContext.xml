@@ -1,0 +1,119 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           ">
+
+	<bean id="context"
+		class="com.learn.server.ApplicationContextListener" />
+
+
+	<bean id="dataSource"
+		class="org.apache.tomcat.jdbc.pool.DataSource">
+		<property name="driverClassName"
+			value="org.postgresql.Driver" />
+		<property name="url"
+			value="jdbc:postgresql://localhost:5432/ChatApp" />
+		<property name="username" value="postgres" />
+		<property name="password" value="postgres" />
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="20" />
+		<property name="maxIdle" value="10" />
+		<property name="minIdle" value="2" />
+	</bean>
+
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingResources">
+			<list>
+				<value>User.hbm.xml</value>
+				<value>Group.hbm.xml</value>
+				<value>Message.hbm.xml</value>
+				<value>MessageDelivered.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.use_sql_comments">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="userDaoImpl" class="com.learn.daoImpl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="groupDaoImpl" class="com.learn.daoImpl.GroupDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="messageDaoImpl" class="com.learn.daoImpl.MessageDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="userServiceImpl"
+		class="com.learn.serviceImpl.UserServiceImpl">
+		<property name="userDao" ref="userDaoImpl" />
+	</bean>
+
+	<bean id="groupServiceImpl"
+		class="com.learn.serviceImpl.GroupServiceImpl">
+		<property name="groupDao" ref="groupDaoImpl" />
+	</bean>
+
+	<bean id="messageServiceImpl"
+		class="com.learn.serviceImpl.MessageServiceImpl">
+		<property name="messageDao" ref="messageDaoImpl" />
+		<property name="userDao" ref="userDaoImpl" />
+		<property name="groupDao" ref="groupDaoImpl" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="wsServer" class="com.learn.websocket.WebSocketServer"
+		init-method="init">
+		<property name="groupDao" ref="groupDaoImpl" />
+		<property name="userDao" ref="userDaoImpl" />
+	</bean>
+
+
+	<tx:advice id="txAdvice"
+		transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"
+				propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="daoLayerMethods"
+			expression="execution(* com.learn.daoImpl.*.*(..)) " />
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="daoLayerMethods" />
+	</aop:config>
+
+	<bean id="liquibase"
+		class="liquibase.integration.spring.SpringLiquibase">
+		<property name="changeLog" value="classpath:Liquibase.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+</beans>

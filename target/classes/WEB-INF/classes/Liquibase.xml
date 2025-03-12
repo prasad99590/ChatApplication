@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+	<changeSet id="1" author="prasad">
+		<createTable tableName="chat_group">
+			<column name="gid" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="gname" type="varchar(255)" />
+			<column name="creator_id" type="bigint" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2" author="prasad">
+		<createTable tableName="message">
+			<column name="mid" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="content" type="text" />
+			<column name="sender" type="bigint" />
+			<column name="created_at" type="timestamp" />
+			<column name="reciever_user" type="bigint" />
+			<column name="reciever_group" type="bigint" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="3" author="prasad">
+		<createTable tableName="message_delivered">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="seen_by" type="bigint" />
+			<column name="seen_at" type="timestamp" />
+			<column name="message" type="bigint" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="4" author="prasad">
+		<createTable tableName="chat_user">
+			<column name="uid" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="username" type="varchar(255)" />
+			<column name="password" type="varchar(255)" />
+			<column name="status" type="varchar(255)" />
+			<column name="fullname" type="varchar(255)" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="5" author="prasad">
+		<createTable tableName="group_user">
+			<column name="gid" type="bigint" />
+			<column name="uid" type="bigint" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="6" author="prasad">
+		<createTable tableName="user_friend">
+			<column name="uid" type="bigint" />
+			<column name="fid" type="bigint" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="7" author="prasad">
+		<addForeignKeyConstraint
+			constraintName="fk_chat_group_creator" baseTableName="chat_group"
+			baseColumnNames="creator_id" referencedTableName="chat_user"
+			referencedColumnNames="uid" />
+
+		<addForeignKeyConstraint
+			constraintName="fk_message_sender" baseTableName="message"
+			baseColumnNames="sender" referencedTableName="chat_user"
+			referencedColumnNames="uid" />
+
+		<addForeignKeyConstraint
+			constraintName="fk_message_receiver_user" baseTableName="message"
+			baseColumnNames="reciever_user" referencedTableName="chat_user"
+			referencedColumnNames="uid" />
+
+		<addForeignKeyConstraint
+			constraintName="fk_message_receiver_group" baseTableName="message"
+			baseColumnNames="reciever_group" referencedTableName="chat_group"
+			referencedColumnNames="gid" />
+
+		<addForeignKeyConstraint
+			constraintName="fk_message_delivered_seen_by"
+			baseTableName="message_delivered" baseColumnNames="seen_by"
+			referencedTableName="chat_user" referencedColumnNames="uid" />
+
+		<addForeignKeyConstraint
+			constraintName="fk_message_delivered_message"
+			baseTableName="message_delivered" baseColumnNames="message"
+			referencedTableName="message" referencedColumnNames="mid" />
+
+		<addForeignKeyConstraint
+			constraintName="fk_group_user_gid" baseTableName="group_user"
+			baseColumnNames="gid" referencedTableName="chat_group"
+			referencedColumnNames="gid" />
+
+		<addForeignKeyConstraint
+			constraintName="fk_group_user_uid" baseTableName="group_user"
+			baseColumnNames="uid" referencedTableName="chat_user"
+			referencedColumnNames="uid" />
+
+		<addForeignKeyConstraint
+			constraintName="fk_user_friend_uid" baseTableName="user_friend"
+			baseColumnNames="uid" referencedTableName="chat_user"
+			referencedColumnNames="uid" />
+
+		<addForeignKeyConstraint
+			constraintName="fk_user_friend_fid" baseTableName="user_friend"
+			baseColumnNames="fid" referencedTableName="chat_user"
+			referencedColumnNames="uid" />
+	</changeSet>
+	<changeSet id="8" author="prasad">
+		<insert tableName="chat_user">
+			<column name="username" value="Prasad" />
+			<column name="password" value="Prasad@123" />
+			<column name="status" value="offline" />
+		</insert>
+	</changeSet>
+	<changeSet id="9" author="yourname">
+		<createSequence sequenceName="hibernate_sequence"
+			startValue="1" />
+	</changeSet>
+</databaseChangeLog>

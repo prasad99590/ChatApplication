@@ -1,0 +1,21 @@
+@FinalFields, false
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
+com.google.gwt.user.client.rpc.RpcTokenException, true, true, false, false, com.google.gwt.user.client.rpc.RpcTokenException/2345075298, 2345075298
+com.google.gwt.user.client.rpc.XsrfToken, false, false, true, true, com.google.gwt.user.client.rpc.XsrfToken/4254043109, 4254043109
+com.learn.model.Group, false, false, true, true, com.learn.model.Group/3872351693, 3872351693
+[Lcom.learn.model.Group;, false, false, true, true, [Lcom.learn.model.Group;/2464865750, 2464865750
+com.learn.model.PersistantObject, false, false, true, false, com.learn.model.PersistantObject/1533014752, 1533014752
+com.learn.model.User, false, false, true, true, com.learn.model.User/519913169, 519913169
+[Lcom.learn.model.User;, false, false, true, true, [Lcom.learn.model.User;/2769119667, 2769119667
+com.learn.service.GroupService, false, false, false, false, _, 1741687104
+java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
+java.lang.RuntimeException, true, false, true, false, java.lang.RuntimeException/515124647, 515124647
+java.lang.String, true, true, true, true, java.lang.String/2004016611, 2004016611
+java.lang.Throwable, true, false, true, false, java.lang.Throwable/2953622131, 2953622131
+java.util.ArrayList, false, false, true, true, java.util.ArrayList/4159755760, 4159755760
+java.util.Arrays$ArrayList, false, false, true, true, java.util.Arrays$ArrayList/2507071751, 2507071751
+java.util.Collections$EmptyList, false, false, true, true, java.util.Collections$EmptyList/4157118744, 4157118744
+java.util.Collections$SingletonList, false, false, true, true, java.util.Collections$SingletonList/1586180994, 1586180994
+java.util.LinkedList, false, false, true, true, java.util.LinkedList/3953877921, 3953877921
+java.util.Stack, false, false, true, true, java.util.Stack/1346942793, 1346942793
+java.util.Vector, false, false, true, true, java.util.Vector/3057315478, 3057315478

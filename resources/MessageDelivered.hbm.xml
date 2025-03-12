@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.learn.model.MessageDelivered"
+		table="message_delivered">
+		<id name="id" column="id">
+			<generator class="sequence">
+				<param name="sequence">hibernate_sequence</param>
+			</generator>
+		</id>
+
+		<many-to-one name="seenBy" class="com.learn.model.User"
+			column="seen_by" lazy="false" />
+		<property name="seenAt" column="seen_at" />
+		<many-to-one name="message"
+			class="com.learn.model.Message" column="message" lazy="false" />
+	</class>
+</hibernate-mapping>

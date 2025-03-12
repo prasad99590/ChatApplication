@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.learn.model.Group" table="chat_group">
+		<id name="gid" column="gid">
+			<generator class="sequence">
+				<param name="sequence">hibernate_sequence</param>
+			</generator>
+		</id>
+		<property name="gname" column="gname" />
+
+		<many-to-one name="createdBy" class="com.learn.model.User"
+			column="creator_id" lazy="false" />
+
+		<set name="members" table="group_user" lazy="false">
+			<key column="gid" />
+			<many-to-many column="uid" class="com.learn.model.User" />
+		</set>
+
+	</class>
+</hibernate-mapping>

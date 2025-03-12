@@ -1,0 +1,70 @@
+<!doctype html>
+<!-- The DOCTYPE declaration above will set the     -->
+<!-- browser's rendering engine into                -->
+<!-- "Standards Mode". Replacing this declaration   -->
+<!-- with a "Quirks Mode" doctype is not supported. -->
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<link type="text/css" rel="stylesheet" href="ChatAppGWT.css">
+
+<title>Web Application Starter Project</title>
+
+
+<script type="text/javascript" language="javascript"
+	src="chatappgwt/chatappgwt.nocache.js"></script>
+</head>
+
+
+<body>
+	<script>
+		var socket;
+		var acceptMessageCallback;
+		var loadChatsCallback;
+		var authorizationData;
+
+		function connectWS(url) {
+
+			socket = new WebSocket(url);
+
+			socket.onopen = function(event) {
+				sendMessage(authorizationData);
+			};
+
+			socket.onmessage = function(event) {
+				var message = event.data;
+				acceptMessageCallback(message);
+			};
+
+			socket.onerror = function(event) {
+				window.alert("WebSocket error: " + event);
+			};
+
+			socket.onclose = function(event) {
+				window.alert("WebSocket is closed now.");
+			};
+		}
+		
+		function setAuthorizationData(data) {
+            console.log(data);
+            authorizationData = data;
+        }
+
+		function sendMessage(message) {
+			socket.send(message);
+		}
+
+		function createCbForAcceptMessage(callback) {
+			acceptMessageCallback = callback;
+		}
+		
+		function createCbForLoadChats(callback) {
+            console.log("Debug point 1...\n\n\n");
+            loadChatsCallback = callback;
+		}
+		
+	</script>
+</body>
+</html>
